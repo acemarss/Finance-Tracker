@@ -4,10 +4,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Финансы</title>
+<title>Finance Tracker</title>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="Финансы" name="apple-mobile-web-app-title"/>
+<meta content="Finance Tracker" name="apple-mobile-web-app-title"/>
 <meta content="#0f1115" name="theme-color"/>
 <link href="apple-touch-icon.png" rel="apple-touch-icon"/>
 <link href="icon-192.png" rel="icon" type="image/png"/>
@@ -382,18 +382,43 @@
   .app-footer{max-width:920px;margin:22px auto 0;text-align:center;color:var(--muted);font-size:0.72rem;opacity:0.75;}
   .backup-note{margin-top:10px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--muted);font-size:0.78rem;line-height:1.45;}
   .backup-note.warn{border-color:#e0a45866;background:#e0a4581a;color:var(--amber);}
+  /* ===== Шапка: кнопка «i» в углу ===== */
+  header{position:relative;}
+  h1{padding-right:42px;flex-wrap:wrap;}
+  .info-btn{position:absolute;top:2px;right:0;width:34px;height:34px;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--muted);font:italic 700 1.05rem Georgia,'Times New Roman',serif;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .info-btn:active,.info-btn:hover{border-color:var(--amber);color:var(--amber);}
+  /* ===== Выбор месяца: стрелки по краям, название по центру ===== */
+  .month-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:18px;}
+  .month-nav .btn-add{flex:0 0 auto;min-width:56px;text-align:center;}
+  .month-nav #monthLabel{flex:1 1 auto;min-width:0;}
+  /* ===== Окно «О приложении» ===== */
+  .info-app{font-size:1.15rem;font-weight:700;color:var(--gold);}
+  .info-h{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin:20px 0 10px;}
+  .info-lead{font-size:0.84rem;line-height:1.5;color:var(--muted);margin:0 0 12px;}
+  .info-feature{display:flex;gap:12px;margin:0 0 14px;align-items:flex-start;}
+  .info-ico{flex:0 0 36px;width:36px;height:36px;border-radius:10px;background:var(--panel-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:1.1rem;line-height:1;}
+  .info-feature b{display:block;font-size:0.92rem;font-weight:600;color:var(--text);margin-bottom:2px;}
+  .info-feature p{margin:0;font-size:0.84rem;line-height:1.5;color:var(--muted);}
+  .info-feature p strong{color:var(--text);font-weight:600;}
+  .info-note{margin:4px 0 0;padding:10px 12px;border:1px solid #e0a45855;background:#e0a4581a;border-radius:10px;font-size:0.82rem;line-height:1.5;color:var(--text);}
+  .info-author-name{font-size:0.95rem;font-weight:600;color:var(--text);}
+  .info-author-note{font-size:0.82rem;color:var(--muted);margin-top:2px;}
+  .info-links{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:8px;}
+  .info-links a{color:var(--amber);text-decoration:none;border-bottom:1px dotted var(--amber);font-size:0.88rem;}
+  .info-ver{margin-top:16px;font-size:0.72rem;color:var(--muted);opacity:0.8;}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-<h1>Финансы <span class="accent" id="h1MonthSpan">· Июль 2026</span></h1>
+<button class="info-btn" id="infoBtn" type="button" aria-label="О приложении" title="О приложении">i</button>
+<h1>Finance Tracker <span class="accent" id="h1MonthSpan">· Июль 2026</span></h1>
 <div class="sub">Учёт доходов, расходов и кешбека по банкам</div>
 <div class="backup-note" id="backupNote"></div>
 </header>
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+<div class="month-nav">
 <button class="btn-add" id="prevMonth" style="padding:8px 16px;background:var(--panel-2);color:var(--amber);border:1px solid var(--line);" type="button">←</button>
-<div id="monthLabel" style="font-weight:600;font-size:1.05rem;min-width:170px;text-align:center;"></div>
+<div id="monthLabel" style="font-weight:600;font-size:1.05rem;text-align:center;"></div>
 <button class="btn-add" id="nextMonth" style="padding:8px 16px;background:var(--panel-2);color:var(--amber);border:1px solid var(--line);" type="button">→</button>
 </div><div class="summary" id="summary"></div><form id="entryForm">
 <div class="form-title">Новая запись</div>
@@ -522,7 +547,41 @@
 
 
 </div>
-<div class="app-footer">Finance Tracker · v12 · данные хранятся только на этом устройстве</div>
+<div class="app-footer">Finance Tracker · v15 · данные хранятся только на этом устройстве</div>
+<div class="modal" hidden id="infoModal">
+  <div class="modal-backdrop" id="infoBackdrop"></div>
+  <div class="modal-sheet" role="dialog" aria-modal="true" aria-label="О приложении">
+    <div class="modal-body">
+      <div class="modal-title">О приложении</div>
+      <div class="info-app">Finance Tracker</div>
+
+      <div class="info-h">Что умеет</div>
+      <div class="info-feature"><span class="info-ico">📝</span><div><b>Учёт доходов и расходов</b><p>Записывай операции. В конце месяца видно, на что ушли деньги: по категориям, в процентах и на графике баланса.</p></div></div>
+      <div class="info-feature"><span class="info-ico">💳</span><div><b>Кешбек по картам</b><p>Один раз впиши условия своих банков на месяц и трекер подскажет, какой картой выгоднее платить в магазине, аптеке или т.п.</p></div></div>
+      <div class="info-feature"><span class="info-ico">💾</span><div><b>Бэкап одним файлом</b><p>Все данные сохраняются в файл .json. Его можно показать любому ИИ, чтобы ещё лучше разобраться со своими финансами.</p></div></div>
+      <div class="info-feature"><span class="info-ico">📶</span><div><b>Работает без интернета</b><p>После установки сеть не нужна. Интернет нужен только для первого запуска и для обновлений. Лучше с VPN, так как они приходят с GitHub.</p></div></div>
+      <div class="info-feature"><span class="info-ico">🔒</span><div><b>Всё остаётся у тебя</b><p>Записи хранятся только на твоём устройстве: ни аккаунтов, ни серверов, полная приватность</p></div></div>
+
+      <div class="info-h">Как установить</div>
+      <p class="info-lead">Открой ссылку на приложение один раз, пока есть интернет, и добавь его на устройство:</p>
+      <div class="info-feature"><span class="info-ico">🍎</span><div><b>iPhone и iPad</b><p>Открой в Safari → «Поделиться» → «На экран Домой». Так iPhone не сотрёт данные, если долго не заходить.</p></div></div>
+      <div class="info-feature"><span class="info-ico">🤖</span><div><b>Android</b><p>Открой в браузере → «Установить и создать ярлык» → «Установить». Не просто создать ярылк, а именно <strong>установить</strong> как прилоежение, чтобы сохранялись данные после выхода.</p></div></div>
+      <div class="info-feature"><span class="info-ico">🖥️</span><div><b>Компьютер</b><p>Открой в браузере. В Chrome и Edge в адресной строке появится значок установки.</p></div></div>
+      <div class="info-note">⚠️ <strong>Не забудь про локальное хранилище (Local Storage).</strong> Именно в нём лежат твои записи: если браузер блокирует данные сайтов или это приватная вкладка, записи не сохранятся. На компьютере проверь, что хранение данных сайтов разрешено.</div>
+
+      <div class="info-h">Береги данные</div>
+      <div class="info-feature"><span class="info-ico">🛟</span><div><b>Делай бэкапы</b><p>Раз в неделю-две нажимай «💾 Save backup» и сохраняй файл, тогда ничего не потеряется при смене телефона или очистке браузера. Вернуть данные можно кнопкой «📂 Load backup». Окно вверху экрана напомнит, когда бэкап создавался в последний раз.</p></div></div>
+      <div id="infoAuthor" hidden>
+        <div class="info-h">Автор</div>
+        <div id="infoAuthorBody"></div>
+      </div>
+      <div class="info-ver" id="infoVersion"></div>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-actions"><button type="button" class="btn-add" id="infoClose">Закрыть</button></div>
+    </div>
+  </div>
+</div>
 <div class="modal" hidden id="editModal">
   <div class="modal-backdrop" id="editBackdrop"></div>
   <div class="modal-sheet" role="dialog" aria-modal="true" aria-label="Редактировать запись">
@@ -553,6 +612,17 @@
 </div>
 <div class="toast" hidden id="toast"></div>
 <script>
+// ===== Версия и автор (окно «i» в правом верхнем углу) =====
+const APP_VERSION = '15';
+// Автор в окне «i». Пустые поля просто не показываются.
+const APP_AUTHOR = {
+  name: 'Acemars',
+  note: '',   // короткая подпись (необязательно)
+  links: [    // {label: 'Название', url: 'https://…'}
+    {label: 'Telegram', url: 'https://t.me/acemars_info'}
+  ]
+};
+
 const STORAGE_KEY = 'finance-entries-all';
 const LEGACY_KEY = 'entries-2026-07';
 const CASHBACK_PLAN_KEY = 'finance-cashback-plans';
@@ -1869,6 +1939,35 @@ function mirrorDate(inputId, textId){
 }
 mirrorDate('f-date', 'f-date-text');
 mirrorDate('e-date', 'e-date-text');
+
+// ===== Окно «О приложении» =====
+function renderAuthor(){
+  const a = APP_AUTHOR || {};
+  const links = (a.links || []).filter(l => l && l.label && /^https?:\/\//i.test(l.url || ''));
+  const box = $('infoAuthor');
+  if(!a.name && !a.note && links.length === 0){ box.hidden = true; return; }
+  let html = '';
+  if(a.name) html += '<div class="info-author-name">' + escapeHtml(a.name) + '</div>';
+  if(a.note) html += '<div class="info-author-note">' + escapeHtml(a.note) + '</div>';
+  if(links.length) html += '<div class="info-links">' + links.map(l => '<a href="' + escapeAttr(l.url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(l.label) + '</a>').join('') + '</div>';
+  $('infoAuthorBody').innerHTML = html;
+  box.hidden = false;
+}
+function openInfo(){
+  renderAuthor();
+  $('infoVersion').textContent = 'Finance Tracker · v' + APP_VERSION;
+  $('infoModal').hidden = false;
+  $('infoModal').querySelector('.modal-body').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeInfo(){
+  $('infoModal').hidden = true;
+  document.body.style.overflow = '';
+}
+$('infoBtn').addEventListener('click', openInfo);
+$('infoClose').addEventListener('click', closeInfo);
+$('infoBackdrop').addEventListener('click', closeInfo);
+document.addEventListener('keydown', ev=>{ if(ev.key === 'Escape' && !$('infoModal').hidden) closeInfo(); });
 
 renderBackupNote();
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) renderBackupNote(); });
