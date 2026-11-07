@@ -412,7 +412,7 @@
 <div class="wrap">
 <header>
 <button class="info-btn" id="infoBtn" type="button" aria-label="О приложении" title="О приложении">i</button>
-<h1>Finance Tracker <span class="accent" id="h1MonthSpan">· Июль 2026</span></h1>
+<h1>Finance Tracker</h1>
 <div class="sub">Учёт доходов, расходов и кешбека по банкам</div>
 <div class="backup-note" id="backupNote"></div>
 </header>
@@ -547,7 +547,7 @@
 
 
 </div>
-<div class="app-footer">Finance Tracker · v15 · данные хранятся только на этом устройстве</div>
+<div class="app-footer" id="appFooter"></div>
 <div class="modal" hidden id="infoModal">
   <div class="modal-backdrop" id="infoBackdrop"></div>
   <div class="modal-sheet" role="dialog" aria-modal="true" aria-label="О приложении">
@@ -565,7 +565,7 @@
       <div class="info-h">Как установить</div>
       <p class="info-lead">Открой ссылку на приложение один раз, пока есть интернет, и добавь его на устройство:</p>
       <div class="info-feature"><span class="info-ico">🍎</span><div><b>iPhone и iPad</b><p>Открой в Safari → «Поделиться» → «На экран Домой». Так iPhone не сотрёт данные, если долго не заходить.</p></div></div>
-      <div class="info-feature"><span class="info-ico">🤖</span><div><b>Android</b><p>Открой в браузере → «Установить и создать ярлык» → «Установить». Не просто создать ярылк, а именно <strong>установить</strong> как прилоежение, чтобы сохранялись данные после выхода.</p></div></div>
+      <div class="info-feature"><span class="info-ico">🤖</span><div><b>Android</b><p>Открой в браузере → «Установить и создать ярлык» → «Установить». Не просто создать ярлык, а именно <strong>установить</strong> как приложение, чтобы сохранялись данные после выхода.</p></div></div>
       <div class="info-feature"><span class="info-ico">🖥️</span><div><b>Компьютер</b><p>Открой в браузере. В Chrome и Edge в адресной строке появится значок установки.</p></div></div>
       <div class="info-note">⚠️ <strong>Не забудь про локальное хранилище (Local Storage).</strong> Именно в нём лежат твои записи: если браузер блокирует данные сайтов или это приватная вкладка, записи не сохранятся. На компьютере проверь, что хранение данных сайтов разрешено.</div>
 
@@ -613,7 +613,7 @@
 <div class="toast" hidden id="toast"></div>
 <script>
 // ===== Версия и автор (окно «i» в правом верхнем углу) =====
-const APP_VERSION = '15';
+const APP_VERSION = '16';
 // Автор в окне «i». Пустые поля просто не показываются.
 const APP_AUTHOR = {
   name: 'Acemars',
@@ -848,7 +848,6 @@ function updateMonthLabel(){
   let label = d.toLocaleDateString('ru-RU', {month:'long', year:'numeric'});
   label = label.charAt(0).toUpperCase() + label.slice(1);
   $('monthLabel').textContent = label;
-  $('h1MonthSpan').textContent = '· ' + label;
 }
 
 const DEFAULT_BANK_SUGGESTIONS = ['Альфабанк','ВТБ','Озон','Тинькофф'];
@@ -1969,6 +1968,7 @@ $('infoClose').addEventListener('click', closeInfo);
 $('infoBackdrop').addEventListener('click', closeInfo);
 document.addEventListener('keydown', ev=>{ if(ev.key === 'Escape' && !$('infoModal').hidden) closeInfo(); });
 
+$('appFooter').textContent = 'Finance Tracker · v' + APP_VERSION + ' · данные хранятся только на этом устройстве';
 renderBackupNote();
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) renderBackupNote(); });
 loadEntries();
